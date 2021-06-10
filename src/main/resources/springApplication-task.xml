@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.3.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+	<bean id="loginLogExpiredCleanTaskHandler" class="cn.com.citycloud.hcs.common.task.log.expiredclean.ExpiredCleanTaskHandler">
+		<property name="expiredCleanService" ref="sysBizLogService" />
+		<property name="expiration" value="${demo.task.expired-clean.login-log.expiration:3d}" />
+		<property name="taskExecutor" ref="coreTaskExecutor" />
+	</bean>
+
+	<bean id="loginLogExpiredCleanTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<bean id="loginLogExpiredCleanTask" class="cn.com.citycloud.hcs.common.task.TaskDetail">
+				<property name="taskHandlerBeanName" value="loginLogExpiredCleanTaskHandler" />
+				<property name="applicationContextJobDataKey" value="applicationContext" />
+				<property name="enable" value="${demo.task.enable:true}" />
+				<property name="durability" value="${demo.task.durability:true}" />
+			</bean>
+		</property>
+		<property name="cronExpression" value="${demo.task.expired-clean.login-log.cron-expression:0 * 16-17 * * ?}" />
+	</bean>
+
+	<!-- 失败重试服务配置 -->
+	<bean id="failureRetryTaskHandler" class="cn.com.citycloud.hcs.common.task.log.failureretry.FailureRetryTaskHandler">
+		<property name="messageSender">
+			<bean id="failureRetryMessageSender" class="cn.com.citycloud.hcs.common.task.jms.JmsSender">
+				<property name="jmsTemplate" ref="jmsTemplate" />
+				<property name="destination">
+					<bean id="failureRetryDestination" class="org.apache.activemq.command.ActiveMQTopic">
+						<constructor-arg value="${spring.activemq.destination.prefix}failureRetry" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="taskExecutor" ref="coreTaskExecutor" />
+		<property name="failureRetryLogService" ref="taskFailureRetryLogService" />
+	</bean>
+
+	<bean id="failureRetryMessageListenerContainer" class="cn.com.citycloud.hcs.common.task.jms.DistributedListenerContainer">
+		<property name="messageHandler" ref="failureRetryTaskHandler" />
+	</bean>
+
+	<bean id="failureRetryTaskTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+		<property name="jobDetail">
+			<bean id="failureRetryTask" class="cn.com.citycloud.hcs.common.task.TaskDetail">
+				<property name="taskHandlerBeanName" value="failureRetryTaskHandler" />
+				<property name="applicationContextJobDataKey" value="applicationContext" />
+				<property name="enable" value="${core.task.enable:false}" />
+				<property name="durability" value="${core.task.durability:true}" />
+			</bean>
+		</property>
+		<property name="startDelay" value="10000" />
+		<property name="repeatInterval" value="${core.task.failure-retry.repeat-interval:10}000" />
+	</bean>
+
+
+</beans>

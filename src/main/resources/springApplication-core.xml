@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.3.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+	<context:component-scan base-package="com.example.demo.bll" />
+
+	<!-- 通知服务配置 -->
+	<bean id="noticeServiceRoutingRule" class="com.example.demo.bll.service.notice.NoticeServiceRoutingRule">
+		<constructor-arg>
+			<map>
+				<entry key="sms">
+					<bean class="com.example.demo.bll.service.impl.sms.SmsNoticeService" />
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="noticeService" primary="true" class="cn.com.citycloud.hcs.common.domain.routing.RouterFactoryBean">
+		<constructor-arg value="com.example.demo.bll.service.notice.NoticeService" />
+		<property name="routingRuleBeanName" value="noticeServiceRoutingRule" />
+		<property name="sourceClass" value="com.example.demo.bll.enums.NoticeType" />
+	</bean>
+
+	<bean id="coreTaskExecutor" class="cn.com.citycloud.hcs.common.task.TaskExecutor" p:corePoolSize="50" p:maxPoolSize="500" />
+
+	<!-- 文件存储服务配置 -->
+	<bean id="fileServiceRoutingRule" class="com.example.demo.bll.service.file.FileStorageServiceRoutingRule">
+		<constructor-arg>
+			<map>
+				<entry key="seaweed">
+					<bean class="com.example.demo.bll.service.file.seaweedfs.SeaweedfsFileStorageService" />
+				</entry>
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="fileStorageService" primary="true" class="cn.com.citycloud.hcs.common.domain.routing.RouterFactoryBean">
+		<constructor-arg value="com.example.demo.bll.service.file.FileStorageService" />
+		<property name="routingRuleBeanName" value="fileServiceRoutingRule" />
+		<property name="sourceClass" value="com.example.demo.bll.enums.FileStorageType" />
+	</bean>
+</beans>

@@ -1,0 +1,136 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active: "@spring.profiles.active@"
+  main:
+    allow-bean-definition-overriding: true
+  jta:
+    log-dir: ./output/logs/transaction-logs
+  datasource:
+    master:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+    slave1:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+    slave2:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf8&useSSL=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+  jpa:
+    show-sql: true # 默认false，在日志里显示执行的sql语句
+    database: mysql
+    hibernate.ddl-auto: update #指定为update，每次启动项目检测表结构有变化的时候会新增字段，表不存在时会新建，如果指定create，则每次启动项目都会清空数据并删除表，再新建
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl #指定jpa的自动表生成策略，驼峰自动映射为下划线格式
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  redis:
+    database: 0
+    host: 10.12.107.164
+    port: 6380
+    timeout: 200
+    password: Admin_cci@123
+
+  activemq:
+    broker-url: "failover:(tcp://10.162.12.148:61616)?startupMaxReconnectAttempts=1&initialReconnectDelay=6000&timeout=3000"
+    packages:
+      trust-all: true
+    pool:
+      enabled: true
+    destination:
+      prefix: "demo:"
+mail:
+  smtp:
+    auth: true
+    port: 465
+    timeout: 5000
+  transport:
+    protocol: smtp
+  send:
+    charset: UTF-8
+  is:
+    ssl: true
+    host: smtp.163.com
+  auth:
+    name: loukai1721@163.com
+    password: LRKIZFRCAYGJEALK
+
+notice:
+  email:
+    sender: 神奇速记<notice@citycloud.com.cn>
+  sms:
+    host: api.mysubmail.com
+    username: 46062
+    password: 7add74cf3140aa920b0eee0248a3218f
+    sender: 神奇速记
+
+loukai:
+  platform:
+    gatewayLog: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    auto-mapping-behavior: full
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.example.demo.bll.entity
+  global-config:
+    # 逻辑删除配置
+    db-config:
+      # 删除前
+      logic-not-delete-value: 1
+      # 删除后
+      logic-delete-value: 0
+
+http:
+  maxTotal: 100
+#并发数
+  defaultMaxPerRoute: 20
+#创建连接的最长时间
+  connectTimeout: 1000
+#从连接池中获取到连接的最长时间
+  connectionRequestTimeout: 500
+#数据传输的最长时间
+  socketTimeout: 10000
+#提交请求前测试连接是否可用
+  staleConnectionCheckEnabled: true
+
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    dao: debug
+    org:
+      mybatis: debug
+
+demo:
+  task:
+    expired-clean:
+      expiration:
+        login-log: 3d
+        cron-expression: 0 * 16-17 * * ?
+
+# 异步线程配置
+# 配置核心线程数
+async:
+  executor:
+    thread:
+      core_pool_size: 5
+      max_pool_size: 5
+      queue_capacity: 99999
+      name.prefix: async-service-
+
+
+

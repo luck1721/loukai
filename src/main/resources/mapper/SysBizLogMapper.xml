@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.bll.mapper.SysBizLogMapper">
+
+    <resultMap type="com.example.demo.bll.entity.SysBizLog" id="SysBizLogMap">
+        <result property="logId" column="log_id" jdbcType="INTEGER"/>
+        <result property="userNo" column="user_no" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="logMsg" column="log_msg" jdbcType="VARCHAR"/>
+        <result property="ip" column="ip" jdbcType="VARCHAR"/>
+        <result property="actionTime" column="action_time" jdbcType="TIMESTAMP"/>
+        <result property="funId" column="fun_id" jdbcType="VARCHAR"/>
+        <result property="funName" column="fun_name" jdbcType="VARCHAR"/>
+        <result property="bizData" column="biz_data" jdbcType="VARCHAR"/>
+        <result property="reqUrl" column="req_url" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="insertLog" parameterType="com.example.demo.bll.entity.SysBizLog" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into sys_biz_log (log_id, user_no,
+        user_name, ip, biz_data,action_time, req_url, status)
+        values ( #{logId,jdbcType=INTEGER}, #{userNo,jdbcType=VARCHAR},
+        #{userName,jdbcType=VARCHAR}, #{ip,jdbcType=DATE}, #{bizData,jdbcType=INTEGER},
+        #{actionTime,jdbcType=DATE},
+        #{reqUrl,jdbcType=VARCHAR},#{status,jdbcType=INTEGER})
+    </insert>
+
+    <!--通过实体作为筛选条件分页查询-->
+    <select id="findPage" resultMap="SysBizLogMap">
+        SELECT
+        t1.project_id, t1.log_id, t1.user_no, t1.user_name, t1.log_msg, t1.ip, t1.action_time, t1.fun_id, t1.fun_name,
+        t1.biz_data, t1.req_url, t1.status
+        FROM sys_biz_log t1
+        <where>
+            <if test="query.startUpdatedTime != null">
+                AND t1.updated_time &gt;= #{query.startUpdatedTime}
+            </if>
+            <if test="query.endUpdatedTime != null">
+                AND t1.updated_time &lt; #{query.endUpdatedTime}
+            </if>
+            <if test="query.startCreatedTime != null">
+                AND t1.created_time &gt;= #{query.startCreatedTime}
+            </if>
+            <if test="query.endCreatedTime != null">
+                AND t1.created_time &lt; #{query.endCreatedTime}
+            </if>
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysBizLogMap">
+        SELECT
+        t1.project_id, t1.log_id, t1.user_no, t1.user_name, t1.log_msg, t1.ip, t1.action_time, t1.fun_id, t1.fun_name,
+        t1.biz_data, t1.req_url, t1.status
+        FROM sys_biz_log t1
+        <where>
+            <if test="projectId != null">
+                AND t1.project_id = #{projectId}
+            </if>
+            <if test="logId != null">
+                AND t1.log_id = #{logId}
+            </if>
+            <if test="userNo != null and userNo != ''">
+                AND t1.user_no = #{userNo}
+            </if>
+            <if test="userName != null and userName != ''">
+                AND t1.user_name = #{userName}
+            </if>
+            <if test="logMsg != null and logMsg != ''">
+                AND t1.log_msg = #{logMsg}
+            </if>
+            <if test="ip != null and ip != ''">
+                AND t1.ip = #{ip}
+            </if>
+            <if test="actionTime != null">
+                AND t1.action_time = #{actionTime}
+            </if>
+            <if test="funId != null and funId != ''">
+                AND t1.fun_id = #{funId}
+            </if>
+            <if test="funName != null and funName != ''">
+                AND t1.fun_name = #{funName}
+            </if>
+            <if test="bizData != null and bizData != ''">
+                AND t1.biz_data = #{bizData}
+            </if>
+            <if test="reqUrl != null and reqUrl != ''">
+                AND t1.req_url = #{reqUrl}
+            </if>
+            <if test="status != null">
+                AND t1.status = #{status}
+            </if>
+        </where>
+    </select>
+</mapper>

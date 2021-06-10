@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.bll.mapper.TaskFailureRetryLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.bll.entity.TaskFailureRetryLog">
+    <!--@mbg.generated-->
+    <!--@Table task_failure_retry_log-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project" jdbcType="VARCHAR" property="project" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="arg" jdbcType="VARCHAR" property="arg" />
+    <result column="failure_message" jdbcType="VARCHAR" property="failureMessage" />
+    <result column="retry_time" jdbcType="DATE" property="retryTime" />
+    <result column="retry_times" jdbcType="INTEGER" property="retryTimes" />
+    <result column="retry_success" jdbcType="TINYINT" property="retrySuccess" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, project, `name`, arg, failure_message, retry_time, retry_times, retry_success
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from task_failure_retry_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from task_failure_retry_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.demo.bll.entity.TaskFailureRetryLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into task_failure_retry_log (project, `name`, arg, 
+      failure_message, retry_time, retry_times, 
+      retry_success)
+    values (#{project,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{arg,jdbcType=VARCHAR}, 
+      #{failureMessage,jdbcType=VARCHAR}, #{retryTime,jdbcType=DATE}, #{retryTimes,jdbcType=INTEGER}, 
+      #{retrySuccess,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.demo.bll.entity.TaskFailureRetryLog" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into task_failure_retry_log
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="project != null">
+        project,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="arg != null">
+        arg,
+      </if>
+      <if test="failureMessage != null">
+        failure_message,
+      </if>
+      <if test="retryTime != null">
+        retry_time,
+      </if>
+      <if test="retryTimes != null">
+        retry_times,
+      </if>
+      <if test="retrySuccess != null">
+        retry_success,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="project != null">
+        #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="arg != null">
+        #{arg,jdbcType=VARCHAR},
+      </if>
+      <if test="failureMessage != null">
+        #{failureMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="retryTime != null">
+        #{retryTime,jdbcType=DATE},
+      </if>
+      <if test="retryTimes != null">
+        #{retryTimes,jdbcType=INTEGER},
+      </if>
+      <if test="retrySuccess != null">
+        #{retrySuccess,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.bll.entity.TaskFailureRetryLog">
+    <!--@mbg.generated-->
+    update task_failure_retry_log
+    <set>
+      <if test="project != null">
+        project = #{project,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="arg != null">
+        arg = #{arg,jdbcType=VARCHAR},
+      </if>
+      <if test="failureMessage != null">
+        failure_message = #{failureMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="retryTime != null">
+        retry_time = #{retryTime,jdbcType=DATE},
+      </if>
+      <if test="retryTimes != null">
+        retry_times = #{retryTimes,jdbcType=INTEGER},
+      </if>
+      <if test="retrySuccess != null">
+        retry_success = #{retrySuccess,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.bll.entity.TaskFailureRetryLog">
+    <!--@mbg.generated-->
+    update task_failure_retry_log
+    set project = #{project,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      arg = #{arg,jdbcType=VARCHAR},
+      failure_message = #{failureMessage,jdbcType=VARCHAR},
+      retry_time = #{retryTime,jdbcType=DATE},
+      retry_times = #{retryTimes,jdbcType=INTEGER},
+      retry_success = #{retrySuccess,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
