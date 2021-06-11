@@ -2,10 +2,9 @@ package com.example.demo.web.controller;
 
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.model.AuthCallback;
-import me.zhyd.oauth.request.AuthGithubRequest;
-import me.zhyd.oauth.request.AuthRequest;
-import me.zhyd.oauth.request.AuthWeChatOpenRequest;
+import me.zhyd.oauth.request.*;
 import me.zhyd.oauth.utils.AuthStateUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,8 +25,8 @@ public class JustAuthController {
 	 * @throws IOException response可能存在的异常
 	 */
 	@RequestMapping("/render/{source}")
-	public void renderAuth(HttpServletResponse response) throws IOException {
-		AuthRequest authRequest = getAuthRequest();
+	public void renderAuth(@PathVariable String source,HttpServletResponse response) throws IOException {
+		AuthRequest authRequest = getAuthRequest(source);
 		String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
 		response.sendRedirect(authorizeUrl);
 	}
@@ -39,8 +38,8 @@ public class JustAuthController {
 	 * @return 第三方平台的用户信息
 	 */
 	@RequestMapping("/callback/{source}")
-	public Object login(AuthCallback callback) {
-		AuthRequest authRequest = getAuthRequest();
+	public Object login(@PathVariable String source, AuthCallback callback) {
+		AuthRequest authRequest = getAuthRequest(source);
 		return authRequest.login(callback);
 	}
 
@@ -49,11 +48,33 @@ public class JustAuthController {
 	 *
 	 * @return AuthRequest
 	 */
-	private AuthRequest getAuthRequest() {
-		return new AuthGithubRequest(AuthConfig.builder()
+	private AuthRequest getAuthRequest(String source) {
+		AuthConfig.AuthConfigBuilder config = AuthConfig.builder()
 				.clientId("d01a06f55c6d5210f616")
 				.clientSecret("970dc0b2905f9e073a035f5b0a82100f69c83676")
-				.redirectUri("http://127.0.0.1:8080/oauth/callback/github")
-				.build());
+				.redirectUri("http://localhost:8080/oauth/callback/github");
+		AuthRequest authRequest = null;
+		switch (source)
+		{
+			case "github":
+				authRequest = new AuthGithubRequest(config.build());
+				break;
+			case "qq":
+				authRequest = new AuthQqRequest(config.build());
+				break;
+			case "weixin":
+				authRequest = new AuthWeChatOpenRequest(config.build());
+				break;
+			case "weixin_mp":
+				authRequest = new AuthWeChatMpRequest(config.build());
+				break;
+			case "weixin_qy":
+				authRequest = new AuthWeChatOpenRequest(config.build());
+				break;
+			case "ding_talk":
+				authRequest = new AuthDingTalkRequest(config.build());
+		}
+		return authRequest;
 	}
+
 }
