@@ -3,16 +3,13 @@ package com.example.demo.bll.listener;
 import com.example.demo.bll.service.impl.LoginServiceImpl;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.SessionListenerAdapter;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import javax.servlet.annotation.WebListener;
 
 /**
  * @author lk
  * @date 2021/6/18
  */
-@WebListener
 public class ShiroSessionListener extends SessionListenerAdapter {
 
 	@Resource

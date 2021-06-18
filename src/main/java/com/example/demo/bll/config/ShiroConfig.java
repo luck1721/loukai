@@ -45,6 +45,7 @@ public class ShiroConfig {
 	public SecurityManager securityManager(CybSimpleCredentialsMatcher cybSimpleCredentialsMatcher) {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
 		securityManager.setRealm(myShiroRealm(cybSimpleCredentialsMatcher));
+		securityManager.setSessionManager(sessionManager());
 		return securityManager;
 	}
 
@@ -56,11 +57,14 @@ public class ShiroConfig {
 
 	@Bean
 	public SessionManager sessionManager(){
-		DefaultSessionManager shiroSessionManager = new DefaultSessionManager();
+		DefaultSessionManager sessionManager = new DefaultSessionManager();
 		//这里可以不设置。Shiro有默认的session管理。如果缓存为Redis则需改用Redis的管理
+		sessionManager.setGlobalSessionTimeout(24*60*60*1000);
+		sessionManager.setDeleteInvalidSessions(true);
 		Collection<SessionListener> listeners = new ArrayList<>();
 		listeners.add(shiroSessionListener());
-		return shiroSessionManager;
+		sessionManager.setSessionListeners(listeners);
+		return sessionManager;
 	}
 
 	// Filter工厂，设置对应的过滤条件和跳转条件
