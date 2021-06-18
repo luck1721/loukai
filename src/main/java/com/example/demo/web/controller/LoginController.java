@@ -6,8 +6,10 @@ import com.example.demo.bll.service.LoginService;
 import com.example.demo.bll.shiro.EasyTypeToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 登录
  * @author lk
  * @date 2021/1/19
  */
@@ -32,11 +35,13 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping(value = "/login")
-	public String login(@RequestBody User user) {
+	public String login(@RequestBody User user,HttpServletRequest request) {
 		// 添加用户认证信息
 		UsernamePasswordToken usernamePasswordToken = new EasyTypeToken(user.getName(), user.getPassword());
 		// 进行验证，这里可以捕获异常，然后返回对应信息
 		SecurityUtils.getSubject().login(usernamePasswordToken);
+		request.getSession().setAttribute("loginUserId",user.getName());
+		loginService.updateLoginStatus(user.getName(),1);
 		return "login ok!";
 	}
 
@@ -102,12 +107,18 @@ public class LoginController {
 	 * @return
 	 */
 	@GetMapping(value = "/login")
-	public String login() {
+	public String login(HttpServletRequest request) {
 		return "请登录";
 	}
 
+	@RequiresAuthentication
 	@GetMapping(value = "/logout")
-	public String logout() {
+	public String logout(HttpServletRequest request) {
+		loginService.updateLoginStatus(request.getSession().getAttribute("loginUserId").toString(),0);
+		Subject subject = SecurityUtils.getSubject();
+		if(subject.isAuthenticated()) {
+			subject.logout();
+		}
 		return "logout";
 	}
 

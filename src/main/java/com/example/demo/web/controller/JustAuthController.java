@@ -1,9 +1,14 @@
 package com.example.demo.web.controller;
 
+import com.example.demo.bll.shiro.EasyTypeToken;
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.model.AuthCallback;
+import me.zhyd.oauth.model.AuthResponse;
+import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.*;
 import me.zhyd.oauth.utils.AuthStateUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +45,13 @@ public class JustAuthController {
 	@RequestMapping("/callback/{source}")
 	public Object login(@PathVariable String source, AuthCallback callback) {
 		AuthRequest authRequest = getAuthRequest(source);
-		return authRequest.login(callback);
+		AuthResponse response = authRequest.login(callback);
+		AuthUser data = (AuthUser) response.getData();
+		// 添加用户认证信息
+		UsernamePasswordToken usernamePasswordToken = new EasyTypeToken(data.getUsername());
+		// 进行验证，这里可以捕获异常，然后返回对应信息
+		SecurityUtils.getSubject().login(usernamePasswordToken);
+		return data.getUsername();
 	}
 
 	/**

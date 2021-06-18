@@ -38,6 +38,17 @@ public class LoginServiceImpl implements LoginService {
 		return user;
 	}
 
+	/**
+	 * 更新登录状态 0未登录 1登录
+	 * @param userId
+	 * @param status
+	 */
+	public void updateLoginStatus(String userId, int status) {
+		User user = userDao.findByName(userId);
+		user.setStatus(status);
+		userDao.save(user);
+	}
+
 	//添加角色
 	@Override
 	public Role addRole(Role role) {

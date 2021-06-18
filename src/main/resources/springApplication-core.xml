@@ -46,6 +46,9 @@
 				<entry key="seaweed">
 					<bean class="com.example.demo.bll.service.file.seaweedfs.SeaweedfsFileStorageService" />
 				</entry>
+				<entry key="local">
+					<bean class="com.example.demo.bll.service.file.local.LocalFileStorageService" />
+				</entry>
 			</map>
 		</constructor-arg>
 	</bean>
@@ -53,6 +56,6 @@
 	<bean id="fileStorageService" primary="true" class="cn.com.citycloud.hcs.common.domain.routing.RouterFactoryBean">
 		<constructor-arg value="com.example.demo.bll.service.file.FileStorageService" />
 		<property name="routingRuleBeanName" value="fileServiceRoutingRule" />
-		<property name="sourceClass" value="com.example.demo.bll.enums.FileStorageType" />
+		<property name="sourceClass" value="com.example.demo.bll.service.file.FileStorage" />
 	</bean>
 </beans>

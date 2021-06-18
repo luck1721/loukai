@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 public class Execl2WordUtils {
 
 	public static void execl2Word () throws IOException, ParseException {
-		File file = new File("d:/新桌面/13.xls");
+		File file = new File("d:/新桌面/15.xls");
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		InputStream is = new FileInputStream(file);
 		HSSFWorkbook workbook = new HSSFWorkbook(is);
@@ -41,7 +41,7 @@ public class Execl2WordUtils {
 		int n = 0;
 		int j = 1;
 		String num = "";
-		for (int i = 1; i <= 942; i++) {
+		for (int i = 1; i <= 524; i++) {
 			HSSFRow row = sheet.getRow(i);
 			//工程名称
 			Object factoryName;

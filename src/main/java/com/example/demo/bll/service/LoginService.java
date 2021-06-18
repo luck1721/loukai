@@ -17,4 +17,6 @@ public interface LoginService {
 
 	User getUser();
 
+	void updateLoginStatus(String userName, int status);
+
 }

@@ -5,16 +5,15 @@ import com.example.demo.bll.exception.ApplicationException;
 import com.example.demo.bll.service.MapperProxyFactory;
 import com.example.demo.bll.service.impl.HttpAPIService;
 import com.example.demo.bll.util.MapperUtils;
-import com.example.demo.bll.vo.EventTypeVO;
-import com.example.demo.bll.vo.EventVO;
-import com.example.demo.bll.vo.GridEventCreateVO;
+import com.example.demo.web.domain.vo.EventTypeVO;
+import com.example.demo.web.domain.vo.EventVO;
+import com.example.demo.web.domain.vo.GridEventCreateVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
