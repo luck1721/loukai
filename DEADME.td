@@ -59,3 +59,21 @@
 30.第三方登录工具,里面有十几家对接平台 JustAuthController
 
 31.文件上传下载功能 FileController
+
+32.token的方式登录 TokenSessionManager
+
+33.需要分页的时候参数处理 CommonQueryPageUtils
+
+34.配置日期返回格式(时间戳的格式返回)
+    jackson:
+           serialization:
+             write-dates-as-timestamps: true
+
+35.本地缓存caffeine CacheConfig
+    cache:
+        type: caffeine
+        cache-names:
+          - userCache
+        caffeine:
+          spec: maximumSize=1024,refreshAfterWrite=60s
+

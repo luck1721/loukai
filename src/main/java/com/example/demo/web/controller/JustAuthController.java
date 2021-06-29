@@ -9,9 +9,7 @@ import me.zhyd.oauth.request.*;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public class JustAuthController {
 	 * @param response response
 	 * @throws IOException response可能存在的异常
 	 */
-	@RequestMapping("/render/{source}")
+	@GetMapping("/render/{source}")
 	public void renderAuth(@PathVariable String source,HttpServletResponse response) throws IOException {
 		AuthRequest authRequest = getAuthRequest(source);
 		String authorizeUrl = authRequest.authorize(AuthStateUtils.createState());
@@ -42,7 +40,7 @@ public class JustAuthController {
 	 * @param callback 第三方回调时的入参
 	 * @return 第三方平台的用户信息
 	 */
-	@RequestMapping("/callback/{source}")
+	@PostMapping("/callback/{source}")
 	public Object login(@PathVariable String source, AuthCallback callback) {
 		AuthRequest authRequest = getAuthRequest(source);
 		AuthResponse response = authRequest.login(callback);

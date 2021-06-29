@@ -4,8 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.demo.bll.entity.SysBizLog;
 import com.example.demo.bll.service.SysBizLogService;
-import com.example.demo.bll.thread.UserThreadContext;
-import com.example.demo.web.domain.DetailUserInfo;
 import com.example.demo.web.domain.SysLogDTO;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.BeanUtils;
@@ -94,6 +92,7 @@ public class LogsAllInterceptor implements HandlerInterceptor, EnvironmentAware 
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		String userName =  (String) SecurityUtils.getSubject().getPrincipal();
 		//获取请求错误码
 		int status = response.getStatus();
 		//当前时间
@@ -102,7 +101,10 @@ public class LogsAllInterceptor implements HandlerInterceptor, EnvironmentAware 
 		long time = (long) request.getAttribute(LOGGER_SEND_TIME);
 		//获取请求日志实体
 		SysLogDTO loggerInfos = (SysLogDTO) request.getAttribute(LOGGER_ENTITY);
-
+		if(!StringUtils.isEmpty(userName)){
+			loggerInfos.setUserName(userName);
+			loggerInfos.setUserNo(userName);
+		}
 		//设置返回时间
 		loggerInfos.setActionTime(new Date());
 		//设置返回错误码
@@ -112,7 +114,7 @@ public class LogsAllInterceptor implements HandlerInterceptor, EnvironmentAware 
 				SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteMapNullValue));
 
 		//执行将日志写入数据库
-		if (gatewayLog) {
+		if (gatewayLog && !loggerInfos.getUserName().equals("免登录")) {
 			SysBizLog sysBizLog = new SysBizLog();
 			BeanUtils.copyProperties(loggerInfos, sysBizLog);
 			bizLogService.saveLog(sysBizLog);

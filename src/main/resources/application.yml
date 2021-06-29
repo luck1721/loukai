@@ -7,6 +7,9 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+  jackson:
+    serialization:
+      write-dates-as-timestamps: true
   main:
     allow-bean-definition-overriding: true
   jta:
@@ -55,6 +58,13 @@ spring:
       enabled: true
     destination:
       prefix: "demo:"
+
+  cache:
+    type: caffeine
+    cache-names:
+      - userCache
+    caffeine:
+      spec: maximumSize=1024,refreshAfterWrite=60s
 mail:
   smtp:
     auth: true
@@ -138,6 +148,10 @@ async:
 
 file:
   base-path: D:/file0617
+
+auth:
+  credential:
+    hash-algorithm: MD5
 
 
 

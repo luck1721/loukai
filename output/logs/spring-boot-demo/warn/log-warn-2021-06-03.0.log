@@ -1,1 +1,0 @@
-2021-06-03 09:32:22.932 [main] WARN  c.b.mybatisplus.core.injector.AbstractMethod - [com.example.demo.bll.mapper.TaskFailureRetryLogMapper.insert] Has been loaded by XML or SqlProvider or Mybatis's Annotation, so ignoring this injection for [class com.baomidou.mybatisplus.core.injector.methods.Insert]

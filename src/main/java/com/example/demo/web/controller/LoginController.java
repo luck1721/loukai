@@ -4,17 +4,16 @@ import com.example.demo.bll.entity.Role;
 import com.example.demo.bll.entity.User;
 import com.example.demo.bll.service.LoginService;
 import com.example.demo.bll.shiro.EasyTypeToken;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,10 +23,12 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2021/1/19
  */
 @RestController
+@RequestMapping("/api")
 public class LoginController {
 
 	@Autowired
 	private LoginService loginService;
+
 
 	/**
 	 * POST登录
@@ -41,8 +42,20 @@ public class LoginController {
 		// 进行验证，这里可以捕获异常，然后返回对应信息
 		SecurityUtils.getSubject().login(usernamePasswordToken);
 		request.getSession().setAttribute("loginUserId",user.getName());
+		Session session = SecurityUtils.getSubject().getSession(false);
+		String accessToken = null;
+		if(session != null) {
+			Object sessionId = session.getId();
+			if(sessionId != null) {
+				try {
+					accessToken = Base64.encodeBase64String(sessionId.toString().getBytes("UTF-8"));
+				} catch (Exception e) {
+					accessToken = Base64.encodeBase64String(sessionId.toString().getBytes());
+				}
+			}
+		}
 		loginService.updateLoginStatus(user.getName(),1);
-		return "login ok!";
+		return "login ok! accessToken = " + accessToken;
 	}
 
 	/**
@@ -56,7 +69,19 @@ public class LoginController {
 		UsernamePasswordToken usernamePasswordToken = new EasyTypeToken(user.getName());
 		// 进行验证，这里可以捕获异常，然后返回对应信息
 		SecurityUtils.getSubject().login(usernamePasswordToken);
-		return "ssoLogin ok!";
+		Session session = SecurityUtils.getSubject().getSession(false);
+		String accessToken = null;
+		if(session != null) {
+			Object sessionId = session.getId();
+			if(sessionId != null) {
+				try {
+					accessToken = Base64.encodeBase64String(sessionId.toString().getBytes("UTF-8"));
+				} catch (Exception e) {
+					accessToken = Base64.encodeBase64String(sessionId.toString().getBytes());
+				}
+			}
+		}
+		return "ssoLogin ok! accessToken = " + accessToken;
 	}
 
 	/**

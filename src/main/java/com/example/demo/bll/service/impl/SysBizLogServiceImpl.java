@@ -3,11 +3,13 @@ package com.example.demo.bll.service.impl;
 import cn.com.citycloud.hcs.common.task.log.expiredclean.ExpiredCleanService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.bll.entity.SysBizLog;
 import com.example.demo.bll.mapper.SysBizLogMapper;
 import com.example.demo.bll.service.SysBizLogService;
+import com.example.demo.bll.util.CommonQueryPageUtils;
+import com.example.demo.web.domain.param.PageParam;
+import com.example.demo.web.domain.param.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,10 +43,10 @@ public class SysBizLogServiceImpl extends ServiceImpl<SysBizLogMapper, SysBizLog
 		removeById(sysBizLog.getLogId());
 	}
 
-	public IPage<SysBizLog> getExpiredsByDate(Date date) {
-		Page<SysBizLog> page = new Page<>(1, 10);
+	public IPage<SysBizLog> getExpiresByDate(PageParam pageParam) {
 		QueryWrapper<SysBizLog> queryWrapper = new QueryWrapper<SysBizLog>();
-		queryWrapper.lt("action_time",date);
-		return sysBizLogMapper.selectPage(page,queryWrapper);
+		queryWrapper.lt("action_time",new Date());
+		QueryPage queryPage = CommonQueryPageUtils.commonQueryPage(pageParam, queryWrapper);
+		return sysBizLogMapper.selectPage(queryPage.getPage(), queryPage.getQueryWrapper());
 	}
 }
