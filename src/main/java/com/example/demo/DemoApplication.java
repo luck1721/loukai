@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.retry.annotation.EnableRetry;
 
 @SpringBootApplication()
 @ComponentScan(basePackages={"com.example.demo.*"})
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @MapperScan("com.example.demo.bll.mapper")
 @ImportResource("classpath*:springApplication-*.xml")
 @EnableCaching
+@EnableRetry
 public class DemoApplication {
 
     public static void main(String[] args) {

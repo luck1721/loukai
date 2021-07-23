@@ -1,9 +1,7 @@
 package com.example.demo.bll.entity;
 
 import cn.com.citycloud.hcs.common.task.log.expiredclean.ExpiredClean;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.example.demo.bll.anon.SensitiveData;
 import com.example.demo.bll.anon.SensitiveField;
 import lombok.Data;
@@ -85,6 +83,12 @@ public class SysBizLog implements Serializable, ExpiredClean<String> {
 	 * 状态：0-正常 1-错误
 	 */
 	private Integer status;
+
+	@Version
+	private Integer version;
+
+	@TableField(exist=false)
+	private User user;
 
 
 	@Override

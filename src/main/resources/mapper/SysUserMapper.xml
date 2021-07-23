@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.bll.mapper.SysUserMapper">
+
+    <resultMap type="com.example.demo.bll.entity.SysUser" id="SysUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="age" column="age" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 伪列 -->
+    <sql id="columns">
+        a.id AS id ,
+        a.name AS name ,
+        a.age AS age 
+    </sql>
+    <!-- 查询条件 -->
+    <sql id="whereSql">
+        <where>
+            <if test="id != null">
+                and a.id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and a.name = #{name}
+            </if>
+            <if test="age != null">
+                and a.age = #{age}
+            </if>
+        </where>
+    </sql>
+
+
+</mapper>

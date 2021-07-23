@@ -31,4 +31,13 @@ public class SysBizLogController {
 		System.out.println("耗时：" + timeValue + "毫秒");
 		return pageJSONResult;
 	}
+
+	@GetMapping("/log/expires")
+	public JSONResult<IPage<SysBizLog>> selectByActionTime(PageParam pageParam) {
+	long begin=System.currentTimeMillis();
+	JSONResult<IPage<SysBizLog>> pageJSONResult = PageJSONResult.ok(sysBizLogService.selectByActionTime(pageParam));
+	long timeValue = System.currentTimeMillis() - begin;
+	System.out.println("耗时：" + timeValue + "毫秒");
+	return pageJSONResult;
+	}
 }

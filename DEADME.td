@@ -77,3 +77,19 @@
         caffeine:
           spec: maximumSize=1024,refreshAfterWrite=60s
 
+36.生成数据库文档工具类 DocumentGenerationUtils
+
+37.失败重试 spring-retry
+
+38.参数校验 Bean Validation
+
+39.OptimisticLockerInterceptor 更新数据库时使用乐观锁插件
+
+40.加入knife4j插件
+
+41.ColumnUtil 根据java8方法引用::双冒号获取对应的字段名称
+
+42.手机号验证码方式登录 VerificationLogController
+
+43.手机号注册 RegisterController
+

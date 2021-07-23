@@ -28,6 +28,9 @@ public class CacheConfig {
 	public enum Caches{
 		getExpiresByDate(600),          //有效期600秒
 		listCustomers(3600,1000),  //有效期2个小时 , 最大容量1000
+		selectByActionTime(600),
+		registerCache(600),
+		securityEmailCache(600),
 		;
 		Caches() {
 		}

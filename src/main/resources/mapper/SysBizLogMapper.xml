@@ -15,6 +15,13 @@
         <result property="reqUrl" column="req_url" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
+    <!-- 关联结果集 -->
+    <resultMap id="UserLogMap" type="com.example.demo.bll.entity.SysBizLog" extends="SysBizLogMap">
+        <association property="user" javaType="com.example.demo.bll.entity.User">
+            <id column="password" property="password"/>
+            <result column="status" property="status" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
 
     <insert id="insertLog" parameterType="com.example.demo.bll.entity.SysBizLog" useGeneratedKeys="true">
         <!--@mbg.generated-->
@@ -90,6 +97,15 @@
             </if>
             <if test="status != null">
                 AND t1.status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="selectByActionTime" resultMap="UserLogMap">
+        SELECT t1.*,u.password,u.status
+        FROM sys_biz_log t1 left join user u on  t1.user_no = u.name
+        <where>
+            <if test=" log.actionTime != null">
+                AND t1.action_time &lt; #{log.actionTime}
             </if>
         </where>
     </select>

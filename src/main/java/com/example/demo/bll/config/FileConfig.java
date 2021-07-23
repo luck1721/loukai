@@ -1,6 +1,8 @@
 package com.example.demo.bll.config;
 
+import com.aliyun.oss.OSSClient;
 import com.example.demo.bll.enums.FileStorageType;
+import com.example.demo.bll.service.file.aliyun.AliyunOssOptions;
 import com.example.demo.bll.service.file.seaweedfs.SeaweedfsOptions;
 import net.anumbrella.seaweedfs.core.FileSource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -108,6 +110,24 @@ public class FileConfig {
 		public void setEnabled(boolean enabled) {
 			this.enabled = enabled;
 		}
+	}
+
+	@Configuration("aliyunOssConfig")
+	@ConditionalOnClass(OSSClient.class)
+	@ConfigurationProperties("file.aliyunoss")
+	public static class AliyunOssConfig extends AliyunOssOptions {
+		private static final long serialVersionUID = -8013812445567341267L;
+
+		private boolean enabled;
+
+		public boolean isEnabled() {
+			return enabled;
+		}
+
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+
 	}
 
 

@@ -1,5 +1,7 @@
 package com.example.demo.bll.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -36,10 +38,12 @@ public class Role {
 		this.roleName = roleName;
 	}
 
+	@JsonBackReference
 	public User getUser() {
 		return user;
 	}
 
+	@JsonBackReference
 	public void setUser(User user) {
 		this.user = user;
 	}

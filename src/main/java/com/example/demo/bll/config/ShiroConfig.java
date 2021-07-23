@@ -265,6 +265,7 @@ public class ShiroConfig {
 		//filterMap.put("/logout", "logout");
 		// swagger
 		filterMap.put("/swagger**/**", "anon");
+		filterMap.put("/doc**", "anon");
 		filterMap.put("/webjars/**", "anon");
 		filterMap.put("/v2/**", "anon");
 		filterMap.put("/api/ssoLogin", "anon");

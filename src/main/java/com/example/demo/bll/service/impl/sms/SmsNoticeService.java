@@ -25,8 +25,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.MailSendException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
@@ -115,6 +116,7 @@ public class SmsNoticeService implements NoticeService, InitializingBean {
 		}
 	}
 
+	@Retryable(maxAttempts = 3, backoff = @Backoff(value = 3000, multiplier = 1.5))
 	public void send(MultiNoticeType multiType, Notice notice) {
 		send(multiType, notice, false, (args, times) -> {
 			try {

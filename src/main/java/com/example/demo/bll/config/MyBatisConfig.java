@@ -1,6 +1,7 @@
 package com.example.demo.bll.config;
 
 import com.baomidou.mybatisplus.core.MybatisConfiguration;
+import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.example.demo.bll.interceptor.DecryptInterceptor;
 import com.example.demo.bll.interceptor.EncryptInterceptor;
@@ -32,6 +33,8 @@ public class MyBatisConfig {
 	@Autowired
 	private PaginationInterceptor paginationInterceptor;
 	@Autowired
+	private OptimisticLockerInterceptor optimisticLockerInterceptor;
+	@Autowired
 	private DecryptInterceptor decryptInterceptor;
 	@Autowired
 	private EncryptInterceptor encryptInterceptor;
@@ -49,7 +52,8 @@ public class MyBatisConfig {
 		sqlSessionFactoryBean.setPlugins(new Interceptor[]{ //PerformanceInterceptor(),OptimisticLockerInterceptor()
 				paginationInterceptor, //添加分页功能
 				decryptInterceptor,
-				encryptInterceptor
+				encryptInterceptor,
+				optimisticLockerInterceptor
 		});
 		sqlSessionFactoryBean.setConfiguration(configuration);
 		return sqlSessionFactoryBean.getObject();

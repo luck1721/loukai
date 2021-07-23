@@ -1,9 +1,13 @@
 package com.example.demo;
 
+import cn.com.citycloud.hcs.common.utils.ConvertUtils;
 import com.example.demo.bll.cache.RedisOperate;
+import com.example.demo.bll.entity.GridEventCreate;
+import com.example.demo.bll.entity.SysBizLog;
 import com.example.demo.bll.exception.ApplicationException;
 import com.example.demo.bll.service.MapperProxyFactory;
 import com.example.demo.bll.service.impl.HttpAPIService;
+import com.example.demo.bll.util.ColumnUtil;
 import com.example.demo.bll.util.MapperUtils;
 import com.example.demo.web.domain.vo.EventTypeVO;
 import com.example.demo.web.domain.vo.EventVO;
@@ -55,6 +59,7 @@ public class DemoApplicationTests {
         eventCreateVO.setCollectTime(new Date());
         eventCreateVO.setLimitingTime(new Date());
         eventCreateVO.setProcessor("333");
+        ConvertUtils.convert(eventCreateVO, GridEventCreate.class);
         EventTypeVO typeVO = new EventTypeVO();
         typeVO.setFirstLevel("1");
         EventVO eventVO = new EventVO();
@@ -69,6 +74,11 @@ public class DemoApplicationTests {
     @Test
     public void proxy() {
         invoker.invoke();
+    }
+
+    @Test
+    public void lambda() {
+        ColumnUtil.getName(SysBizLog::getActionTime);
     }
 
 }

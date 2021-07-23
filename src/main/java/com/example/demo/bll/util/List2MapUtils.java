@@ -1,6 +1,6 @@
 package com.example.demo.bll.util;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

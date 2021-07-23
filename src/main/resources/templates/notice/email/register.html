@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>用户注册验证</title>
+</head>
+<body>
+	<div>
+		<span th:text="${fullname}" />, 您好：<br />
+		<span>&nbsp;&nbsp;&nbsp;&nbsp;请点击<a th:href="@{${tinyUrl}}">这里</a>完成注册验证。</span><br />
+		<span>如果无法点击，请将下面的链接复制到浏览器地址栏来完成注册验证：</span><br />
+		<span th:text="${tinyUrl}" />
+	</div>
+</body>
+</html>
+

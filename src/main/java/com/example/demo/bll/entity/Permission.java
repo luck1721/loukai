@@ -1,5 +1,7 @@
 package com.example.demo.bll.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 /**
@@ -32,10 +34,12 @@ public class Permission {
 		this.permission = permission;
 	}
 
+	@JsonBackReference
 	public Role getRole() {
 		return role;
 	}
 
+	@JsonBackReference
 	public void setRole(Role role) {
 		this.role = role;
 	}

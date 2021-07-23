@@ -3,7 +3,7 @@ package com.example.demo.bll.interceptor;
 import com.example.demo.bll.anon.SensitiveData;
 import com.example.demo.bll.util.DecryptUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.plugin.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -19,4 +19,6 @@ public interface LoginService {
 
 	void updateLoginStatus(String userName, int status);
 
+	public String noticeLoginVerification(String phone, String verification);
+
 }

@@ -1,6 +1,7 @@
 package com.example.demo.bll.service.impl;
 
 import cn.com.citycloud.hcs.common.task.log.expiredclean.ExpiredCleanService;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -33,8 +34,8 @@ public class SysBizLogServiceImpl extends ServiceImpl<SysBizLogMapper, SysBizLog
 
 	@Override
 	public List<SysBizLog> getExpireds(Date date) {
-		QueryWrapper<SysBizLog> queryWrapper = new QueryWrapper<SysBizLog>();
-		queryWrapper.lt("action_time",date);
+		LambdaQueryWrapper<SysBizLog> queryWrapper = new LambdaQueryWrapper<SysBizLog>();
+		queryWrapper.lt(SysBizLog::getActionTime,date);
 		return list(queryWrapper);
 	}
 
@@ -48,5 +49,12 @@ public class SysBizLogServiceImpl extends ServiceImpl<SysBizLogMapper, SysBizLog
 		queryWrapper.lt("action_time",new Date());
 		QueryPage queryPage = CommonQueryPageUtils.commonQueryPage(pageParam, queryWrapper);
 		return sysBizLogMapper.selectPage(queryPage.getPage(), queryPage.getQueryWrapper());
+	}
+
+	public IPage<SysBizLog> selectByActionTime(PageParam pageParam) {
+		QueryPage queryPage = CommonQueryPageUtils.commonQueryPage(pageParam, null);
+		SysBizLog log = new SysBizLog();
+		log.setActionTime(new Date());
+		return sysBizLogMapper.selectByActionTime(queryPage.getPage(),log);
 	}
 }

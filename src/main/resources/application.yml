@@ -148,6 +148,10 @@ async:
 
 file:
   base-path: D:/file0617
+  aliyunoss:
+    accessKeyId: LTAItAeTQKz9Vc35
+    accessKeySecret: lsCNzN8RYBEtmRQDVQ0VH5Kjhh8cyP
+    enabled: true
 
 auth:
   credential:

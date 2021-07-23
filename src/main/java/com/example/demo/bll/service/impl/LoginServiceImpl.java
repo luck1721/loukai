@@ -5,8 +5,11 @@ import com.example.demo.bll.dao.UserDao;
 import com.example.demo.bll.entity.Permission;
 import com.example.demo.bll.entity.Role;
 import com.example.demo.bll.entity.User;
+import com.example.demo.bll.enums.NoticeType;
 import com.example.demo.bll.event.MyEvent;
 import com.example.demo.bll.service.LoginService;
+import com.example.demo.bll.service.notice.NoticeService;
+import com.example.demo.bll.service.notice.SimpleNotice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
 	private RoleDao roleDao;
 	@Resource
 	private ApplicationContext applicationContext;
+	@Autowired
+	private NoticeService noticeService;
 
 	//添加用户
 	@Override
@@ -92,5 +98,13 @@ public class LoginServiceImpl implements LoginService {
 		MyEvent event = new MyEvent(this, user);
 		applicationContext.publishEvent(event);
 		return user;
+	}
+
+	public String noticeLoginVerification(String phone, String verification) {
+		SimpleNotice notice = new SimpleNotice();
+		notice.setContent("您的登录验证码是"+ verification +"，如非本人操作请忽略此短信。");
+		notice.setReceivers(Arrays.asList(phone));
+		noticeService.send(NoticeType.sms, notice);
+		return "登录验证码已发送至手机号【" + phone + "】，请读取短信完成登录。";
 	}
 }
