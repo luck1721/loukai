@@ -1,7 +1,7 @@
 package com.example.demo.bll.service.impl;
 
 import com.example.demo.bll.config.TinyUrlConfig;
-import com.example.demo.bll.util.TinyUrlUtils;
+import com.example.demo.bll.utils.TinyUrlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

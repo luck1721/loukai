@@ -1,7 +1,7 @@
 package com.example.demo.bll.interceptor;
 
 import com.example.demo.bll.anon.SensitiveData;
-import com.example.demo.bll.util.DecryptUtil;
+import com.example.demo.bll.utils.DecryptUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;

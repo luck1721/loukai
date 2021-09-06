@@ -2,8 +2,8 @@
 package com.example.demo.web.controller;
 
 
-import com.example.demo.bll.dao.ArticleRepository;
-import com.example.demo.bll.dao.GreatRepository;
+import com.example.demo.jpa.dao.ArticleRepository;
+import com.example.demo.jpa.dao.GreatRepository;
 import com.example.demo.bll.entity.Article;
 import com.example.demo.bll.entity.Great;
 import org.springframework.beans.factory.annotation.Autowired;

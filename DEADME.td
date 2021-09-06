@@ -93,3 +93,5 @@
 
 43.手机号注册 RegisterController
 
+44.图片压缩 PicController
+

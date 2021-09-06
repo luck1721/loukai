@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.api.ApiController;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.example.demo.bll.entity.SysUser;
 import com.example.demo.bll.service.SysUserService;
-import com.example.demo.bll.util.CommonQueryPageUtils;
+import com.example.demo.bll.utils.CommonQueryPageUtils;
 import com.example.demo.web.domain.param.PageParam;
 import com.example.demo.web.domain.param.QueryPage;
 import org.springframework.web.bind.annotation.*;

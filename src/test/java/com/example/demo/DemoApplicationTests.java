@@ -7,8 +7,8 @@ import com.example.demo.bll.entity.SysBizLog;
 import com.example.demo.bll.exception.ApplicationException;
 import com.example.demo.bll.service.MapperProxyFactory;
 import com.example.demo.bll.service.impl.HttpAPIService;
-import com.example.demo.bll.util.ColumnUtil;
-import com.example.demo.bll.util.MapperUtils;
+import com.example.demo.bll.utils.ColumnUtil;
+import com.example.demo.bll.utils.MapperUtils;
 import com.example.demo.web.domain.vo.EventTypeVO;
 import com.example.demo.web.domain.vo.EventVO;
 import com.example.demo.web.domain.vo.GridEventCreateVO;
@@ -18,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -79,6 +81,34 @@ public class DemoApplicationTests {
     @Test
     public void lambda() {
         ColumnUtil.getName(SysBizLog::getActionTime);
+    }
+
+    @Test
+    public void sortMap() {
+        List<Map<String, Object>> messageList = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        map.put("date","2021-08-07 09:00:00");
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("date","2021-08-08 09:00:00");
+        Map<String, Object> map3 = new HashMap<>();
+        map3.put("date","2021-08-06 09:00:00");
+        messageList.add(map);
+        messageList.add(map2);
+        messageList.add(map3);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Collections.sort(messageList,(o1,o2)->{
+            Date  date1 = new Date();
+            Date  date2 = new Date();
+            try {
+                date1 = simpleDateFormat.parse((String) o1.get("date"));
+                date2 = simpleDateFormat.parse((String) o2.get("date"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            return date2.compareTo(date1);
+        });
+        System.out.println(messageList);
     }
 
 }

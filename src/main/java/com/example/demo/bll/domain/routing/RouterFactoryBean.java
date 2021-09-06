@@ -1,6 +1,6 @@
 package com.example.demo.bll.domain.routing;
 
-import com.example.demo.bll.util.ClassUtils;
+import com.example.demo.bll.utils.ClassUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.FactoryBeanNotInitializedException;

@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.bll.entity.SysBizLog;
 import com.example.demo.bll.mapper.SysBizLogMapper;
 import com.example.demo.bll.service.SysBizLogService;
-import com.example.demo.bll.util.CommonQueryPageUtils;
+import com.example.demo.bll.utils.CommonQueryPageUtils;
 import com.example.demo.web.domain.param.PageParam;
 import com.example.demo.web.domain.param.QueryPage;
 import org.springframework.beans.factory.annotation.Autowired;

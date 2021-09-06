@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.retry.annotation.EnableRetry;
 
 @SpringBootApplication()
-@ComponentScan(basePackages={"com.example.demo.*"})
-@EnableJpaRepositories("com.example.demo.bll.dao")
+@EnableJpaRepositories(basePackages = "com.example.demo.bll.dao")
+@ComponentScan(basePackages={"com.example.demo.bll","com.example.demo.web"})
 @MapperScan("com.example.demo.bll.mapper")
 @ImportResource("classpath*:springApplication-*.xml")
 @EnableCaching

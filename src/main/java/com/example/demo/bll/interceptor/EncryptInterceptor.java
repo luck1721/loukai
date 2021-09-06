@@ -1,7 +1,7 @@
 package com.example.demo.bll.interceptor;
 
 import com.example.demo.bll.anon.SensitiveData;
-import com.example.demo.bll.util.AESEncrypt;
+import com.example.demo.bll.utils.AESEncrypt;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.plugin.*;

@@ -1,7 +1,6 @@
 package com.example.demo.bll.handle;
 
-import com.example.demo.bll.util.SpringUtil;
-import org.springframework.boot.SpringApplication;
+import com.example.demo.bll.utils.SpringUtil;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package com.example.demo.bll.config;
 
-import com.example.demo.bll.util.DateUtil;
+import com.example.demo.bll.utils.DateUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
