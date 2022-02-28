@@ -45,4 +45,18 @@ public class GridEventCreateVO extends BaseBean {
 	@ApiModelProperty(value = "限定世间",required = true)
 	private Date limitingTime;
 
+	private String eventGrade;
+
+	private String streetName;
+
+	private String communityName;
+
+	private String gridName;
+
+	private String poxX;
+
+	private String poxY;
+
+	private String groupNo;
+
 }

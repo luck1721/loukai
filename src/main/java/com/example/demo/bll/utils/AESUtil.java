@@ -6,6 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.logging.Level;
@@ -99,5 +100,10 @@ public class AESUtil {
 			Logger.getLogger(AESUtil.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		return null;
+	}
+
+	public static void main(String[] args) throws IOException {
+		PasswordEncipher encipher = new PasswordEncipher("hfbank@2021");
+		System.out.println(encipher.getCipher());
 	}
 }

@@ -177,5 +177,11 @@ xxl:
 ### xxl-job executor log-retention-days
       logretentiondays: 30
 
+rest:
+  template:
+    conn:
+      connect-timeout: 30000
+      read-timeout: 30000
+
 
 

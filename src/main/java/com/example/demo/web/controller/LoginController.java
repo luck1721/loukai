@@ -1,15 +1,21 @@
 package com.example.demo.web.controller;
 
+import cn.hutool.json.JSONUtil;
+import com.example.demo.bll.anon.ResponseResult;
+import com.example.demo.bll.config.JSONResult;
 import com.example.demo.bll.entity.Role;
 import com.example.demo.bll.entity.User;
+import com.example.demo.bll.entity.UserSync;
 import com.example.demo.bll.service.LoginService;
 import com.example.demo.bll.shiro.EasyTypeToken;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2021/1/19
  */
 @RestController
+@ResponseResult
 @RequestMapping("/api")
 public class LoginController {
 
@@ -40,7 +47,12 @@ public class LoginController {
 		// 添加用户认证信息
 		UsernamePasswordToken usernamePasswordToken = new EasyTypeToken(user.getName(), user.getPassword());
 		// 进行验证，这里可以捕获异常，然后返回对应信息
-		SecurityUtils.getSubject().login(usernamePasswordToken);
+
+		try {
+			SecurityUtils.getSubject().login(usernamePasswordToken);
+		} catch (AuthenticationException e) {
+			throw new RuntimeException("用户名或密码错误",e);
+		}
 		request.getSession().setAttribute("loginUserId",user.getName());
 		Session session = SecurityUtils.getSubject().getSession(false);
 		String accessToken = null;
@@ -56,6 +68,12 @@ public class LoginController {
 		}
 		loginService.updateLoginStatus(user.getName(),1);
 		return "login ok! accessToken = " + accessToken;
+	}
+
+	@PostMapping(value = "/user_sync")
+	public String login(@RequestBody UserSync userSync, HttpServletRequest request) {
+		System.out.println(JSONUtil.toJsonStr(userSync));
+		return "";
 	}
 
 	/**
@@ -91,6 +109,8 @@ public class LoginController {
 	 */
 	@PostMapping(value = "/addUser")
 	public String addUser(@RequestBody User user) {
+		SimpleHash simpleHash = new SimpleHash("MD5", user.getPassword(), null, 0);
+		user.setPassword(simpleHash.toHex());
 		user = loginService.addUser(user);
 		return "addUser is ok! \n" + user;
 	}
@@ -132,8 +152,8 @@ public class LoginController {
 	 * @return
 	 */
 	@GetMapping(value = "/login")
-	public String login(HttpServletRequest request) {
-		return "请登录";
+	public JSONResult login(HttpServletRequest request) {
+		return JSONResult.error(null,"401","请登录");
 	}
 
 	@RequiresAuthentication

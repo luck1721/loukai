@@ -25,9 +25,11 @@ public class DocumentGenerationUtils {
 		//数据源
 		HikariConfig hikariConfig = new HikariConfig();
 		hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		hikariConfig.setJdbcUrl("jdbc:mysql://10.12.107.105:3306/zhuzhou?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8");
+		///hikariConfig.setJdbcUrl("jdbc:mysql://10.12.107.157:3306/zhuzhou?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8");
+		hikariConfig.setJdbcUrl("jdbc:mysql://10.12.107.157:3306/zhuzhou_cockpit?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8");
 		hikariConfig.setUsername("root");
-		hikariConfig.setPassword("cci_Zhuzhou_@123");
+		hikariConfig.setPassword("Admin_cci@123");
+		//hikariConfig.setPassword("cci_Zhuzhou_@123");
 		//设置可以获取tables remarks信息
 		hikariConfig.addDataSourceProperty("useInformationSchema", "true");
 		hikariConfig.setMinimumIdle(2);
@@ -56,14 +58,14 @@ public class DocumentGenerationUtils {
 		//忽略表后缀
 		ArrayList<String> ignoreSuffix = new ArrayList<>();
 		ignoreSuffix.add("_test");
-		ArrayList<String> tablePrefix = new ArrayList<>();
-		tablePrefix.add("sp");
+		//ArrayList<String> tablePrefix = new ArrayList<>();
+		//tablePrefix.add("sp");
 		ProcessConfig processConfig = ProcessConfig.builder()
 				//指定生成逻辑、当存在指定表、指定表前缀、指定表后缀时，将生成指定表，其余表不生成、并跳过忽略表配置
 				//根据名称指定表生成
 				.designatedTableName(new ArrayList<>())
 				//根据表前缀生成
-				.designatedTablePrefix(tablePrefix)
+				//.designatedTablePrefix(tablePrefix)
 				//根据表后缀生成
 				.designatedTableSuffix(new ArrayList<>())
 				//忽略表名
@@ -90,6 +92,10 @@ public class DocumentGenerationUtils {
 	}
 
 	public static void main(String[] args) {
-		DocumentGenerationUtils.documentGeneration();
+		//DocumentGenerationUtils.documentGeneration();
+		String message="404021000100130B1105192A02000000000000000000000100010001020C002323";
+		String lastChar = message.substring(0,message.length() -4);
+		String data[] = message.split("2323");
+		System.out.println(lastChar);
 	}
 }

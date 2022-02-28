@@ -30,7 +30,7 @@ public class ScheduledJob implements Job {
 
 
 	@Override
-	@CacheLock(lockedPrefix = "TimeTaskService",expireTime=30)
+	@CacheLock(lockedPrefix = "scheduledJob",expireTime=30)
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");

@@ -3,7 +3,6 @@ package com.example.demo.bll.service.impl;
 import com.example.demo.bll.config.HttpResult;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -12,7 +11,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +145,7 @@ public class HttpAPIService {
 		String a = EntityUtils.toString(response.getEntity(), "UTF-8");
 		codeAndEntity.put("entity", a);
 		codeAndEntity.put("responseTime", Duration.between(startTime, endTime).toMillis());
-		System.out.println(a);
+		System.out.println("code" +code);
 		return codeAndEntity;
 	}
 

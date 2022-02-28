@@ -4,7 +4,7 @@ import cn.com.citycloud.hcs.common.auth.MyCacheManager;
 import com.example.demo.bll.listener.ShiroSessionListener;
 import com.example.demo.bll.shiro.CybSimpleCredentialsMatcher;
 import com.example.demo.bll.shiro.TokenSessionManager;
-import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.SessionManager;
@@ -41,7 +41,7 @@ public class ShiroConfig {
 	@ConfigurationProperties("auth.credential")
 	public static class AuthCredentialProperties {
 		/** 加密算法 */
-		private String hashAlgorithm = Sha256Hash.ALGORITHM_NAME;
+		private String hashAlgorithm = Md5Hash.ALGORITHM_NAME;
 		/** 加密次数 */
 		private int hashIterations = 1;
 		/** 盐值 */
@@ -269,6 +269,7 @@ public class ShiroConfig {
 		filterMap.put("/webjars/**", "anon");
 		filterMap.put("/v2/**", "anon");
 		filterMap.put("/api/ssoLogin", "anon");
+		filterMap.put("/api/user_sync", "anon");
 		filterMap.put("/oauth/**", "anon");
 		filterMap.put("/file/**", "anon");
 		// 对所有用户认证

@@ -1,5 +1,6 @@
 package com.example.demo.bll.utils;
 
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 /**
@@ -12,7 +13,14 @@ public class UUIDUtils {
         return UUID.randomUUID().toString().replace("-", "");
     }
 
+    //定义方法
+    public static String Chufa(int a,int b) {
+        //“0.00000000”确定精度
+        DecimalFormat dF = new DecimalFormat("0.00000000");
+        return dF.format((float)a/b);
+    }
     public static void main(String[] args) {
-        System.out.println(String.valueOf(Long.parseLong("9020", 16)));
+        DecimalFormat dF = new DecimalFormat("0.00");
+        System.out.println((float)3/5);
     }
 }

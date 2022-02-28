@@ -1,6 +1,7 @@
 package com.example.demo.web.controller;
 
 import com.example.demo.bll.shiro.EasyTypeToken;
+import com.xkcoding.http.config.HttpConfig;
 import me.zhyd.oauth.config.AuthConfig;
 import me.zhyd.oauth.model.AuthCallback;
 import me.zhyd.oauth.model.AuthResponse;
@@ -9,7 +10,11 @@ import me.zhyd.oauth.request.*;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,16 +45,20 @@ public class JustAuthController {
 	 * @param callback 第三方回调时的入参
 	 * @return 第三方平台的用户信息
 	 */
-	@PostMapping("/callback/{source}")
-	public Object login(@PathVariable String source, AuthCallback callback) {
+	@RequestMapping("/callback/{source}")
+	public AuthUser login(@PathVariable String source, AuthCallback callback) {
+		HttpConfig config = new HttpConfig();
+		config.setTimeout(30000);
 		AuthRequest authRequest = getAuthRequest(source);
 		AuthResponse response = authRequest.login(callback);
 		AuthUser data = (AuthUser) response.getData();
+		Assert.notNull(data,"连接超时");
+		System.out.println(data.getUsername());
 		// 添加用户认证信息
 		UsernamePasswordToken usernamePasswordToken = new EasyTypeToken(data.getUsername());
 		// 进行验证，这里可以捕获异常，然后返回对应信息
 		SecurityUtils.getSubject().login(usernamePasswordToken);
-		return data.getUsername();
+		return data;
 	}
 
 	/**
@@ -61,7 +70,7 @@ public class JustAuthController {
 		AuthConfig.AuthConfigBuilder config = AuthConfig.builder()
 				.clientId("d01a06f55c6d5210f616")
 				.clientSecret("970dc0b2905f9e073a035f5b0a82100f69c83676")
-				.redirectUri("http://localhost:8080/oauth/callback/github");
+				.redirectUri("http://localhost:8090/oauth/callback/github");
 		AuthRequest authRequest = null;
 		switch (source)
 		{
